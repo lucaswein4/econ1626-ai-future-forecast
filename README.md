@@ -4,8 +4,8 @@ An interactive economic web essay forecasting how artificial intelligence will r
 
 Submitted for **ECON1626 — AI & the Economy**, RMIT University, Bachelor of Business (Finance / Online Economies).
 
-🔗 **Live site:** `https://lucaswein4.github.io/econ1626-ai-future-forecast/forecast.html`
-*(this becomes active once you enable GitHub Pages — see setup below)*
+🔗 **Live site:** [lucaswein4.github.io/econ1626-ai-future-forecast/forecast.html](https://lucaswein4.github.io/econ1626-ai-future-forecast/forecast.html)
+
 
 ---
 
