@@ -57,9 +57,9 @@ Applies the **task-based labour-economics framework** of Acemoglu & Restrepo (20
 
 No dependencies to install. Either double-click `forecast.html`, or serve it with `python3 -m http.server` then open `http://localhost:8000/forecast.html`.
 
-## Publishing to GitHub Pages
+## Hosting
 
-Settings → Pages → Source: *Deploy from a branch* → Branch: `main` / root → Save. The site goes live at the URL above within a minute or two.
+The site is published via GitHub Pages from the `main` branch (root).
 
 ## AI use acknowledgement
 
