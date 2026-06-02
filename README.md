@@ -17,9 +17,10 @@ AI will not lift Australian financial services evenly. By 2030 it will split the
 
 | File | Purpose |
 |------|---------|
-| `forecast.html` | The full interactive web essay (~2,000 words + visuals) |
+| `forecast.html` | The full interactive web essay — all text, styling, and live Chart.js visualisations in a single file |
 | `README.md` | This file — project overview and navigation |
-| `figures/` | Supporting images / chart exports (optional) |
+
+All charts are generated dynamically in-browser by Chart.js (loaded via CDN) within `forecast.html`; there are no separate image files to manage.
 
 ## How to read it
 
