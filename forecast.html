@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Two-Speed Bank — How AI Will Split Australian Financial Services by 2030</title>
+<meta name="description" content="An interactive economic forecast on how artificial intelligence will reshape Australia's financial services industry between 2027 and 2030.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,400..700&family=Hanken+Grotesk:wght@300;400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --ink:#16140f;
+    --paper:#f4efe6;
+    --paper-deep:#e9e2d3;
+    --text:#1c1a14;
+    --muted:#6b6354;
+    --amber:#c2691b;
+    --amber-soft:#e08a2e;
+    --teal:#1f6f6b;
+    --rust:#9e3a22;
+    --rust2:#9e3a22;
+    --line:#d8cfbd;
+    --max:1120px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);
+    color:var(--text);
+    font-family:'Hanken Grotesk',system-ui,sans-serif;
+    font-size:18px;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
+  .narrow{max-width:720px;margin:0 auto;padding:0 28px}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:var(--ink);
+    color:var(--paper);
+    padding:clamp(70px,12vh,150px) 0 clamp(56px,9vh,110px);
+    position:relative;
+    overflow:hidden;
+    border-bottom:1px solid #2b271e;
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(900px 500px at 78% -8%, rgba(194,105,27,.22), transparent 60%),
+      radial-gradient(700px 460px at 6% 108%, rgba(31,111,107,.20), transparent 60%);
+    pointer-events:none;
+  }
+  .hero .wrap{position:relative;z-index:1}
+  .kicker{
+    font-family:'Spline Sans Mono',monospace;
+    font-size:12.5px;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--amber-soft);margin-bottom:26px;
+    display:flex;gap:14px;align-items:center;flex-wrap:wrap;
+  }
+  .kicker span{opacity:.55;color:var(--paper)}
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:560;
+    font-size:clamp(2.6rem,6.8vw,5.2rem);
+    line-height:1.02;
+    letter-spacing:-.018em;
+    max-width:14ch;
+    margin-bottom:30px;
+  }
+  h1 em{font-style:italic;color:var(--amber-soft)}
+  .standfirst{
+    font-size:clamp(1.05rem,2vw,1.32rem);
+    max-width:54ch;color:#d9d1c2;font-weight:350;line-height:1.55;
+  }
+  .byline{
+    margin-top:40px;font-family:'Spline Sans Mono',monospace;
+    font-size:12.5px;letter-spacing:.04em;
+    color:#9b9384;display:flex;gap:22px;flex-wrap:wrap;
+  }
+  .byline b{color:var(--paper);font-weight:500}
+
+  /* ---------- SECTION SCAFFOLD ---------- */
+  section{padding:clamp(56px,8vh,96px) 0;border-bottom:1px solid var(--line)}
+  .sec-num{
+    font-family:'Spline Sans Mono',monospace;font-size:12.5px;
+    letter-spacing:.2em;color:var(--amber);text-transform:uppercase;
+    margin-bottom:18px;display:block;
+  }
+  h2{
+    font-family:'Fraunces',serif;font-weight:540;
+    font-size:clamp(1.9rem,4.2vw,3rem);line-height:1.08;
+    letter-spacing:-.015em;margin-bottom:26px;max-width:20ch;
+  }
+  h3{
+    font-family:'Fraunces',serif;font-weight:560;font-size:1.42rem;
+    margin:38px 0 12px;letter-spacing:-.01em;
+  }
+  p{margin-bottom:20px}
+  .lead{font-size:1.22rem;line-height:1.6;color:#3a362c}
+  .narrow p, .narrow h3{max-width:none}
+  a.ref{color:var(--amber);text-decoration:none;border-bottom:1px solid rgba(194,105,27,.35);font-weight:500}
+  a.ref:hover{border-color:var(--amber)}
+  strong{font-weight:600;color:var(--ink)}
+  .pull{
+    font-family:'Fraunces',serif;font-style:italic;font-weight:430;
+    font-size:clamp(1.5rem,3.4vw,2.2rem);line-height:1.28;
+    color:var(--ink);margin:48px auto;max-width:18ch;text-align:center;
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    padding:40px 0;
+  }
+  .pull span{color:var(--amber)}
+
+  /* ---------- TABLE OF CONTENTS / NAV ---------- */
+  .toc{
+    position:sticky;top:0;z-index:50;background:rgba(244,239,230,.86);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
+  }
+  .toc .wrap{display:flex;gap:6px;align-items:center;padding:11px 28px;flex-wrap:wrap}
+  .toc a{
+    font-family:'Spline Sans Mono',monospace;font-size:11.5px;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--muted);text-decoration:none;
+    padding:6px 11px;border-radius:6px;transition:.15s;white-space:nowrap;
+  }
+  .toc a:hover{background:var(--paper-deep);color:var(--ink)}
+  .toc .brand{font-weight:600;color:var(--ink);margin-right:auto}
+
+  /* ---------- STAT STRIP ---------- */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:42px 0}
+  .stat{background:var(--paper);padding:26px 22px}
+  .stat .big{font-family:'Fraunces',serif;font-size:2.5rem;font-weight:580;line-height:1;color:var(--amber);letter-spacing:-.02em}
+  .stat .lab{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.4}
+
+  /* ---------- CHART CARDS ---------- */
+  .card{
+    background:#fbf8f1;border:1px solid var(--line);border-radius:14px;
+    padding:30px 28px;margin:38px 0;box-shadow:0 1px 0 rgba(0,0,0,.02);
+  }
+  .card h4{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:560;margin-bottom:6px}
+  .card .sub{font-size:14px;color:var(--muted);margin-bottom:22px;max-width:60ch}
+  .chart-box{position:relative;height:380px}
+  .caption{font-size:13px;color:var(--muted);margin-top:18px;line-height:1.5;font-style:italic}
+
+  /* scenario toggle */
+  .toggle{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+  .toggle button{
+    font-family:'Spline Sans Mono',monospace;font-size:12px;letter-spacing:.05em;
+    text-transform:uppercase;padding:9px 16px;border-radius:8px;border:1px solid var(--line);
+    background:var(--paper);color:var(--muted);cursor:pointer;transition:.15s;font-weight:500;
+  }
+  .toggle button:hover{border-color:var(--amber)}
+  .toggle button.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .scenario-readout{
+    margin-top:20px;padding:18px 20px;border-left:3px solid var(--amber);
+    background:var(--paper-deep);border-radius:0 8px 8px 0;font-size:15px;line-height:1.55;
+  }
+  .scenario-readout b{font-family:'Spline Sans Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--amber);display:block;margin-bottom:6px}
+
+  /* ---------- SCENARIO GRID ---------- */
+  .scen-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin:34px 0}
+  .scen{border:1px solid var(--line);border-radius:12px;padding:24px;background:#fbf8f1;position:relative;overflow:hidden}
+  .scen::before{content:"";position:absolute;top:0;left:0;right:0;height:4px}
+  .scen.up::before{background:var(--teal)}
+  .scen.base::before{background:var(--amber)}
+  .scen.down::before{background:var(--rust2)}
+  .scen .tag{font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .scen h4{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:560;margin-bottom:10px}
+  .scen p{font-size:14.5px;margin-bottom:0;color:#403b30}
+
+  /* ---------- POLICY DECISION TREE ---------- */
+  .tree{display:grid;gap:14px;margin:32px 0}
+  .branch{
+    border:1px solid var(--line);border-radius:12px;padding:0;overflow:hidden;
+    background:#fbf8f1;transition:.2s;
+  }
+  .branch summary{
+    list-style:none;cursor:pointer;padding:20px 24px;display:flex;gap:16px;align-items:baseline;
+    font-weight:600;font-size:1.06rem;
+  }
+  .branch summary::-webkit-details-marker{display:none}
+  .branch summary::before{
+    content:"+";font-family:'Spline Sans Mono',monospace;color:var(--amber);
+    font-size:1.3rem;transition:.2s;line-height:1;
+  }
+  .branch[open] summary::before{content:"–"}
+  .branch .body{padding:0 24px 24px 60px;font-size:15px;color:#403b30}
+  .branch .body p{margin-bottom:12px}
+  .branch .kpi{font-family:'Spline Sans Mono',monospace;font-size:12.5px;color:var(--teal);background:rgba(31,111,107,.08);padding:3px 8px;border-radius:5px}
+
+  /* ---------- METHODS / REFERENCES ---------- */
+  .meth{background:var(--ink);color:var(--paper)}
+  .meth h2{color:var(--paper)}
+  .meth .sec-num{color:var(--amber-soft)}
+  .meth p{color:#d2cabb}
+  .meth strong{color:var(--paper)}
+  .meth a.ref{color:var(--amber-soft);border-color:rgba(224,138,46,.4)}
+  .disclosure{border:1px solid #2f2b21;border-radius:12px;padding:26px;margin-top:30px;background:rgba(255,255,255,.02)}
+  .disclosure h3{color:var(--amber-soft);margin-top:0}
+
+  .reflist{list-style:none;counter-reset:r;margin-top:10px}
+  .reflist li{
+    padding:14px 0 14px 0;border-bottom:1px solid var(--line);font-size:15px;line-height:1.55;
+    text-indent:-1.6em;padding-left:1.6em;
+  }
+  .reflist li:last-child{border-bottom:none}
+
+  footer{background:var(--ink);color:#857c6c;padding:50px 0;text-align:center;font-size:13.5px;border-top:1px solid #2b271e}
+  footer .wrap{color:#857c6c}
+  footer b{color:var(--paper)}
+
+  @media(max-width:640px){
+    body{font-size:17px}
+    .chart-box{height:300px}
+    .branch .body{padding-left:24px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="toc">
+  <div class="wrap">
+    <a href="#top" class="brand">Two-Speed Bank</a>
+    <a href="#thesis">Thesis</a>
+    <a href="#channels">Mechanisms</a>
+    <a href="#scenarios">Scenarios</a>
+    <a href="#policy">Policy</a>
+    <a href="#methods">Methods</a>
+    <a href="#refs">References</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="kicker">ECON1626 · AI &amp; the Economy <span>/</span> Interactive Forecast <span>/</span> 2027–2030</div>
+    <h1>The <em>Two-Speed</em> Bank</h1>
+    <p class="standfirst">Artificial intelligence will not lift Australian financial services evenly. By 2030 it will split the industry in two — a fast lane of AI-native institutions capturing the productivity windfall, and a slow lane of laggards and displaced workers left behind. Which Australia we get is being decided by regulatory choices made right now.</p>
+    <div class="byline">
+      <span>An interactive economic forecast</span>
+      <span><b>RMIT University</b> · Bachelor of Business</span>
+      <span>Finance &amp; Online Economies</span>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 1. THESIS ============ -->
+<section id="thesis">
+  <div class="narrow">
+    <span class="sec-num">01 — The Claim</span>
+    <h2>The productivity windfall is real. So is the split it will cause.</h2>
+    <p class="lead">Australian financial services is one of the most AI-ready industries in one of the most AI-ready economies on earth. That is precisely why its transformation will be uneven — and why the next eighteen months of policy matter more than the technology itself.</p>
+    <p>The headline numbers are not speculative. Australian financial firms already report using AI at <strong>67%</strong> versus 57% globally, and generative AI at <strong>45%</strong> versus 31% globally <a class="ref" href="#r-broadridge">(Broadridge 2025)</a>. The Infosys Bank Tech Index put active AI use among Australian financial firms at <strong>76%</strong> by mid-2025 <a class="ref" href="#r-infosys">(CFOtech 2026)</a>. The Productivity Commission's central estimate is that AI and data could add roughly <strong>$116 billion</strong> to Australian economic activity over the decade, lifting labour productivity by about 4.3% <a class="ref" href="#r-pc">(Productivity Commission 2025)</a>.</p>
+    <p>My thesis is that these aggregate gains conceal a <strong>distributional rupture</strong>. AI in finance is not a uniform productivity uplift; it is a tool whose returns concentrate among firms with the capital, data and talent to deploy it at scale. The result by 2030 is a two-speed industry: a small cluster of incumbents and AI-native fintechs that compound their advantage, and a long tail — smaller mutuals, regional players, and the workers doing the routine cognitive tasks AI does first — that absorbs the disruption without the gains. The Commonwealth Bank's July 2025 decision to cut 45 call-centre roles after deploying an AI chatbot, then reverse it under union pressure, is the whole forecast in miniature: the technology arrives faster than the institutions designed to share its benefits <a class="ref" href="#r-uow">(University of Wollongong 2026)</a>.</p>
+  </div>
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat"><div class="big">67%</div><div class="lab">of Australian financial firms use AI (vs 57% globally)</div></div>
+      <div class="stat"><div class="big">$116B</div><div class="lab">central estimate of AI's decade GDP contribution</div></div>
+      <div class="stat"><div class="big">+4.3%</div><div class="lab">projected lift to labour productivity</div></div>
+      <div class="stat"><div class="big">×2</div><div class="lab">expected finance-sector AI adoption within 3 years</div></div>
+    </div>
+  </div>
+  <div class="narrow">
+    <p class="caption">Sources: Broadridge (2025); Productivity Commission (2025); AFIA (2025). Adoption and productivity figures are reported estimates; the scenario projections later in this essay are illustrative model outputs anchored to these figures, not point forecasts.</p>
+  </div>
+</section>
+
+<!-- ============ 2. CHANNELS ============ -->
+<section id="channels">
+  <div class="narrow">
+    <span class="sec-num">02 — Capabilities to Channels</span>
+    <h2>How AI capabilities become economic outcomes</h2>
+    <p class="lead">To forecast credibly, you need a mechanism, not a vibe. I use the task-based framework of Acemoglu and Restrepo (2019), which treats production as a bundle of tasks and asks what AI does to each.</p>
+    <p>In this framework, a new technology acts on the economy through competing forces. The <strong>displacement effect</strong> substitutes capital for labour in tasks machines can now do, pushing down labour demand and wages. The <strong>productivity effect</strong> lowers costs and raises output, which can expand demand for labour in non-automated tasks. And the <strong>reinstatement effect</strong> creates entirely new tasks where labour holds the advantage. Whether workers gain or lose depends on the balance between these forces — and on a fourth dynamic, <strong>skill-biased technical change</strong>, which raises returns to workers who complement AI while eroding them for those who substitute for it.</p>
+
+    <h3>Mapping the channels onto finance</h3>
+    <p>Financial services is unusually exposed because so much of its value chain is <em>routine cognitive work</em> — exactly the tasks that large language models and predictive systems now perform. Four channels dominate:</p>
+    <p><strong>1. Analytical automation (displacement).</strong> Credit assessment, compliance review, document processing, first-line customer service and junior research are being automated. McKinsey estimates basic automation makes a team 15–20% faster, with far larger gains where AI takes fuller control <a class="ref" href="#r-uow">(University of Wollongong 2026)</a>. These are graduate and mid-tier roles — the traditional entry points into finance careers.</p>
+    <p><strong>2. Augmentation (productivity).</strong> For senior analysts, portfolio managers and advisers, AI is a complement: it drafts, summarises and models faster, raising the output of those who direct it. Australian firms expect AI to have a high impact on productivity (73%) more than on headcount reduction <a class="ref" href="#r-broadridge">(Broadridge 2025)</a> — consistent with augmentation, not just replacement.</p>
+    <p><strong>3. New tasks (reinstatement).</strong> AI assurance, model-risk governance, prompt and data engineering, and AI-product design are genuinely new finance roles. The question is volume: reinstatement historically lags displacement, leaving a transitional gap.</p>
+    <p><strong>4. Market structure.</strong> AI's returns scale with data and compute, which favours large incumbents and well-funded fintechs. This is the channel most likely to drive the two-speed split — and the one least captured by aggregate productivity numbers.</p>
+  </div>
+
+  <div class="wrap">
+    <div class="card">
+      <h4>Australia is an early, aggressive adopter</h4>
+      <p class="sub">Reported AI and generative-AI use among financial-services firms, Australia versus global average, 2025.</p>
+      <div class="chart-box"><canvas id="adoptChart"></canvas></div>
+      <p class="caption">Data: Broadridge Digital Transformation &amp; Next-Gen Technology Study (2025). High adoption raises the ceiling on gains — and the floor on disruption.</p>
+    </div>
+  </div>
+
+  <div class="narrow">
+    <p class="pull">The aggregate gain is settled. <span>The distribution of that gain is the whole forecast.</span></p>
+  </div>
+</section>
+
+<!-- ============ 3. SCENARIOS ============ -->
+<section id="scenarios">
+  <div class="narrow">
+    <span class="sec-num">03 — Three Futures</span>
+    <h2>Baseline, upside, downside</h2>
+    <p class="lead">The same technology produces three very different 2030s. What separates them is not how good the models get — it is adoption breadth, the speed of reinstatement, and whether policy redistributes the gains. Toggle between the scenarios below.</p>
+  </div>
+
+  <div class="wrap">
+    <div class="card">
+      <h4>Cumulative contribution to financial-services gross value added</h4>
+      <p class="sub">Illustrative scenario projections, indexed to 2025 = 100, anchored to the Productivity Commission's central decade estimate. These are mechanism illustrations, not point forecasts.</p>
+      <div class="toggle" id="scenToggle">
+        <button data-s="all" class="active">All three</button>
+        <button data-s="upside">Upside</button>
+        <button data-s="baseline">Baseline</button>
+        <button data-s="downside">Downside</button>
+      </div>
+      <div class="chart-box"><canvas id="scenChart"></canvas></div>
+      <div class="scenario-readout" id="readout">
+        <b>Reading the chart</b>
+        All paths rise — AI is net-positive for output in every scenario. The divergence is <em>who captures it</em>. The upside spreads gains through broad adoption and reskilling; the downside concentrates them while displacement runs ahead of reinstatement.
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="scen-grid">
+      <div class="scen up">
+        <div class="tag">Upside · "Broad-based uplift"</div>
+        <h4>Diffusion beats concentration</h4>
+        <p>Adoption spreads beyond the big four to mutuals and regionals via shared infrastructure. Reskilling keeps pace, so displaced workers move into augmented and new roles. Productivity and reinstatement effects dominate; the wage distribution widens only modestly. <strong>Key drivers:</strong> open-data access, public reskilling investment, competition policy that prevents data moats.</p>
+      </div>
+      <div class="scen base">
+        <div class="tag">Baseline · "Two-speed"</div>
+        <h4>Gains concentrate, slowly</h4>
+        <p>Incumbents and funded fintechs compound advantages; smaller players lag. Aggregate output rises near the PC central path, but entry-level roles thin and the benefit skews to capital and senior talent. Displacement and reinstatement roughly offset over time, with a painful transitional gap. <strong>Most likely absent policy change.</strong></p>
+      </div>
+      <div class="scen down">
+        <div class="tag">Downside · "Hollowing out"</div>
+        <h4>Displacement runs ahead</h4>
+        <p>Rapid cost-driven automation (the CBA chatbot pattern, repeated) outpaces reskilling and reinstatement. Market power concentrates; consumer harms from opaque models trigger reactive, heavy-handed regulation that further entrenches incumbents who can afford compliance. <strong>Key risks:</strong> trust collapse, thin entry-level pipeline, regulatory whiplash.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. POLICY ============ -->
+<section id="policy">
+  <div class="narrow">
+    <span class="sec-num">04 — Policy Playbook</span>
+    <h2>The levers that move the trajectory</h2>
+    <p class="lead">Australia is at a genuine fork. The Productivity Commission has urged that AI-specific regulation be a "last resort," built on existing legal foundations, and that mandatory high-risk guardrails be paused <a class="ref" href="#r-acs">(ACS 2025)</a>. ASIC's Joe Longo signalled the regulator is "not rushing" to new rules but will use existing powers more boldly <a class="ref" href="#r-asic">(ASIC 2025)</a>. APRA ran a targeted prudential review of AI across large banks, insurers and super in late 2025 <a class="ref" href="#r-apra">(APRA 2025)</a>. The light-touch instinct is defensible for growth — but it is exactly the setting most likely to deliver the two-speed baseline. Expand the branches to see the trade-offs.</p>
+  </div>
+
+  <div class="wrap">
+    <div class="tree">
+      <details class="branch">
+        <summary>Lever 1 — Competition &amp; data access: stop the moats forming</summary>
+        <div class="body">
+          <p>AI returns scale with data, so the single biggest driver of concentration is unequal data access. Strengthening and "rightsizing" the Consumer Data Right so smaller players and customers can actually use their data — a direction the PC itself recommends — lowers the barrier that lets incumbents pull away.</p>
+          <p><strong>Trade-off:</strong> heavier data-sharing mandates raise compliance costs that big firms absorb more easily, which can paradoxically entrench them. Design matters more than intensity.</p>
+          <p><span class="kpi">KPI: share of AI-driven revenue captured outside the big four</span></p>
+        </div>
+      </details>
+      <details class="branch">
+        <summary>Lever 2 — Reskilling &amp; the entry-level pipeline</summary>
+        <div class="body">
+          <p>The displacement effect hits routine cognitive roles — graduate analysts, processing, first-line service — which are also the industry's training ground. If those rungs disappear, the future senior-talent pipeline breaks. Co-funded reskilling and protected apprenticeship-style pathways turn displacement into reinstatement faster.</p>
+          <p><strong>Trade-off:</strong> public reskilling is fiscally costly and slow; firms may free-ride. Tying support to retention commitments helps but reduces flexibility.</p>
+          <p><span class="kpi">KPI: time-to-redeployment for displaced finance workers</span></p>
+        </div>
+      </details>
+      <details class="branch">
+        <summary>Lever 3 — Consumer protection &amp; model governance</summary>
+        <div class="body">
+          <p>Robo-advice, algorithmic credit and AI-driven pricing create real risks of bias and opacity. 77% of Australians believe AI regulation is necessary <a class="ref" href="#r-kpmg">(KPMG 2025)</a>, and trust is the binding constraint on adoption. Using existing ASIC/APRA powers for outcomes-based oversight protects consumers without a slow new AI Act.</p>
+          <p><strong>Trade-off:</strong> too little oversight invites a trust-collapse and reactive over-regulation (the downside path); too much too early raises costs only large firms can bear.</p>
+          <p><span class="kpi">KPI: complaint &amp; remediation rates on AI-mediated products</span></p>
+        </div>
+      </details>
+      <details class="branch">
+        <summary>Lever 4 — Timing &amp; sequencing</summary>
+        <div class="body">
+          <p>The PC's "last resort" stance buys growth but front-loads concentration risk. A sequenced approach — competition and reskilling levers now, while monitoring for consumer harm and tightening governance only as evidence warrants — captures most of the upside while keeping the downside in reach of correction.</p>
+          <p><strong>Unintended consequence to watch:</strong> regulatory whiplash. A trust shock that forces sudden heavy rules would entrench the very incumbents light-touch policy was meant to discipline.</p>
+          <p><span class="kpi">KPI: regulatory-change volatility index</span></p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="narrow">
+    <p>The through-line: <strong>every lever that fights concentration also tends to raise compliance costs that incumbents bear best.</strong> That tension is the central governance problem of AI in Australian finance. The policy task is not choosing more or less regulation — it is designing interventions whose costs do not themselves become a moat.</p>
+  </div>
+</section>
+
+<!-- ============ 5. METHODS ============ -->
+<section id="methods" class="meth">
+  <div class="narrow">
+    <span class="sec-num">05 — Methods, Data &amp; Limitations</span>
+    <h2>Showing my work</h2>
+    <p><strong>Approach.</strong> The forecast applies the Acemoglu–Restrepo (2019) task-based framework as its causal engine, decomposing AI's effect into displacement, productivity, reinstatement and skill-bias channels, then mapping each onto financial-services tasks. Scenarios vary three parameters: adoption breadth, reskilling/reinstatement speed, and redistributive policy intensity.</p>
+    <p><strong>Data.</strong> Adoption figures are from the Broadridge (2025) and Infosys (2025) surveys; macro productivity and the $116B/4.3% figures from the Productivity Commission's <em>Harnessing Data and Digital Technology</em> interim and final reports (2025); industry growth potential from AFIA (2025); the CBA case from contemporaneous reporting. Regulatory positions are drawn directly from ASIC, APRA and the PC.</p>
+    <p><strong>The chart projections are illustrative, not predictive.</strong> The scenario lines are indexed model outputs anchored to the PC central estimate to make mechanisms vivid; they are not econometric point forecasts and should not be read as such.</p>
+    <p><strong>Limitations &amp; uncertainty.</strong> Three matter most. First, <em>data gaps</em>: firm-level distribution of AI gains in Australian finance is largely unmeasured, so the concentration thesis rests on mechanism and analogy more than direct data. Second, <em>model limits</em>: the task framework assumes tasks are separable and that reinstatement is possible; a genuine structural break (e.g. agentic AI automating whole functions) would break those assumptions. Third, <em>policy endogeneity</em>: the regulatory settings I treat as drivers are themselves shaped by the outcomes they produce, so the scenarios are paths, not predictions.</p>
+
+    <div class="disclosure">
+      <h3>AI tooling disclosure</h3>
+      <p>Consistent with RMIT academic-integrity guidelines and this assessment's open AI-use policy: generative AI tools were used to assist with source discovery, to build the HTML/Chart.js scaffolding for the interactive visuals, and to refine drafting and structure. The economic argument, thesis, scenario logic, source selection, and final synthesis are my own, and all factual claims were verified against the cited primary sources. Visual data labelled "illustrative" represents my own scenario assumptions, not AI-generated data.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. REFERENCES ============ -->
+<section id="refs">
+  <div class="narrow">
+    <span class="sec-num">06 — References &amp; Attributions</span>
+    <h2>References</h2>
+    <p class="caption" style="margin-bottom:24px">RMIT Harvard style. URLs and access dates should be confirmed before submission.</p>
+    <ul class="reflist">
+      <li id="r-acemoglu">Acemoglu, D &amp; Restrepo, P 2019, 'Automation and new tasks: how technology displaces and reinstates labor', <em>Journal of Economic Perspectives</em>, vol. 33, no. 2, pp. 3–30.</li>
+      <li id="r-afia">Australian Finance Industry Association (AFIA) 2025, <em>AFIA urges government to adopt supportive AI frameworks to unlock billions in economic growth</em>, AFIA, viewed June 2026, &lt;https://www.afia.asn.au/newshub/ai-report&gt;.</li>
+      <li id="r-apra">Australian Prudential Regulation Authority (APRA) 2025, <em>Letter to industry on artificial intelligence (AI)</em>, APRA, viewed June 2026, &lt;https://www.apra.gov.au/apra-letter-to-industry-on-artificial-intelligence-ai&gt;.</li>
+      <li id="r-asic">Australian Securities and Investments Commission (ASIC) 2025, <em>AI: a blueprint for better banking?</em>, keynote address by J Longo, ABA Banking Conference, Sydney, 23 July, viewed June 2026, &lt;https://www.asic.gov.au/about-asic/news-centre/speeches/ai-a-blueprint-for-better-banking/&gt;.</li>
+      <li id="r-broadridge">Broadridge Financial Solutions 2025, <em>AI adoption by Australian financial services firms outpaces global peers</em>, media release, 22 October, viewed June 2026, &lt;https://www.broadridge.com/press-release/2025/ai-adoption-by-australian-financial-services-firms-outpaces-global-peers&gt;.</li>
+      <li id="r-infosys">CFOtech Australia 2026, <em>Australia's banks bet big on AI, but the real test is trust, not tech</em>, citing Infosys Bank Tech Index (May 2025), viewed June 2026, &lt;https://cfotech.com.au/story/australia-s-banks-bet-big-on-ai-but-the-real-test-is-trust-not-tech&gt;.</li>
+      <li id="r-kpmg">KPMG Australia 2025, <em>Trust in artificial intelligence: global insights 2025</em>, KPMG, viewed June 2026.</li>
+      <li id="r-acs">ACS Information Age 2025, 'AI laws should be "last resort": Productivity Commission', <em>Information Age</em>, 6 August, viewed June 2026, &lt;https://ia.acs.org.au/article/2025/ai-laws-should-be-a-last-resort-productivity-commission.html&gt;.</li>
+      <li id="r-pc">Productivity Commission 2025, <em>Harnessing data and digital technology</em>, Inquiry Report no. 111, Australian Government, Canberra, viewed June 2026, &lt;https://www.pc.gov.au/node/4799/&gt;.</li>
+      <li id="r-uow">University of Wollongong 2026, <em>Your bank is already using AI. But what's coming next could be radically new</em>, UOW, viewed June 2026, &lt;https://www.uow.edu.au/media/2025/your-bank-is-already-using-ai-but-whats-coming-next-could-be-radicallynew.php&gt;.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><b>The Two-Speed Bank</b> — an interactive economic forecast · ECON1626, RMIT University</p>
+    <p style="margin-top:8px">Built with HTML, CSS and Chart.js · Hosted on GitHub Pages · 2026</p>
+  </div>
+</footer>
+
+<script>
+// ---------- palette ----------
+const C = {
+  ink:'#16140f', amber:'#c2691b', amberSoft:'#e08a2e',
+  teal:'#1f6f6b', rust:'#9e3a22', muted:'#6b6354', line:'#d8cfbd'
+};
+Chart.defaults.font.family = "'Hanken Grotesk', sans-serif";
+Chart.defaults.color = C.muted;
+
+// ---------- adoption chart ----------
+new Chart(document.getElementById('adoptChart'), {
+  type:'bar',
+  data:{
+    labels:['Any AI use','Generative AI','High productivity\nimpact expected','Advanced real-time\nanalytics'],
+    datasets:[
+      {label:'Australia', data:[67,45,73,67], backgroundColor:C.amber, borderRadius:6, barPercentage:.7},
+      {label:'Global average', data:[57,31,68,44], backgroundColor:'#c9bfa9', borderRadius:6, barPercentage:.7}
+    ]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{position:'top', labels:{boxWidth:12, font:{size:13}}},
+      tooltip:{callbacks:{label:(c)=>` ${c.dataset.label}: ${c.parsed.y}%`}}},
+    scales:{
+      y:{beginAtZero:true, max:90, grid:{color:C.line}, ticks:{callback:v=>v+'%'}},
+      x:{grid:{display:false}, ticks:{font:{size:11}}}
+    }
+  }
+});
+
+// ---------- scenario chart ----------
+const yrs = ['2025','2026','2027','2028','2029','2030'];
+const upside   = [100,105,113,124,138,156];
+const baseline = [100,103,108,115,123,133];
+const downside = [100,102,105,109,114,120];
+
+const dsUp =  {label:'Upside', data:upside, borderColor:C.teal, backgroundColor:'rgba(31,111,107,.08)', tension:.35, borderWidth:3, fill:true, pointRadius:3, pointBackgroundColor:C.teal};
+const dsBase= {label:'Baseline', data:baseline, borderColor:C.amber, backgroundColor:'rgba(194,105,27,.08)', tension:.35, borderWidth:3, fill:true, pointRadius:3, pointBackgroundColor:C.amber};
+const dsDown= {label:'Downside', data:downside, borderColor:C.rust, backgroundColor:'rgba(158,58,34,.07)', tension:.35, borderWidth:3, fill:true, pointRadius:3, pointBackgroundColor:C.rust};
+
+const scenChart = new Chart(document.getElementById('scenChart'), {
+  type:'line',
+  data:{labels:yrs, datasets:[dsUp, dsBase, dsDown]},
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{position:'top', labels:{boxWidth:12, font:{size:13}}},
+      tooltip:{callbacks:{label:(c)=>` ${c.dataset.label}: index ${c.parsed.y}`}}},
+    scales:{
+      y:{min:95, max:160, grid:{color:C.line}, title:{display:true, text:'Index (2025 = 100)', font:{size:12}}},
+      x:{grid:{display:false}}
+    }
+  }
+});
+
+const readouts = {
+  all:`<b>Reading the chart</b>All paths rise — AI is net-positive for output in every scenario. The divergence is <em>who captures it</em>. The upside spreads gains through broad adoption and reskilling; the downside concentrates them while displacement runs ahead of reinstatement.`,
+  upside:`<b>Upside · broad-based uplift</b>Output climbs ~56% by 2030 as adoption diffuses beyond the big four and reskilling converts displacement into new and augmented roles. Productivity and reinstatement effects dominate; gains are widely shared.`,
+  baseline:`<b>Baseline · two-speed</b>Output tracks the Productivity Commission's central path (~33% by 2030), but gains concentrate among incumbents and funded fintechs. Entry-level roles thin; the benefit skews to capital and senior talent.`,
+  downside:`<b>Downside · hollowing out</b>The weakest output path (~20%) — not because AI fails, but because cost-driven displacement outruns reskilling, trust erodes, and reactive regulation entrenches incumbents. The smallest pie, most unequally split.`
+};
+
+document.querySelectorAll('#scenToggle button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('#scenToggle button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const s = btn.dataset.s;
+    if(s==='all'){ scenChart.data.datasets=[dsUp,dsBase,dsDown]; }
+    if(s==='upside'){ scenChart.data.datasets=[dsUp]; }
+    if(s==='baseline'){ scenChart.data.datasets=[dsBase]; }
+    if(s==='downside'){ scenChart.data.datasets=[dsDown]; }
+    scenChart.update();
+    document.getElementById('readout').innerHTML = readouts[s];
+  });
+});
+</script>
+</body>
+</html>
